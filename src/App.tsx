@@ -19,10 +19,40 @@ import {
 
 import { TechStackGrid } from './components/TechStackGrid';
 import { MicroservicesView } from './components/MicroservicesView';
+import { AdvancedAIView } from './components/AdvancedAIView';
+import { GovernanceView } from './components/GovernanceView';
+import { SecurityView } from './components/SecurityView';
+
+type Section = 'architecture' | 'advanced-ai' | 'governance' | 'security';
 
 export default function App() {
   const [selectedLayer, setSelectedLayer] = useState<ArchitectureLayer | null>(null);
   const [viewMode, setViewMode] = useState<'topology' | 'dataflow' | 'infra' | 'microservices'>('topology');
+  const [currentSection, setCurrentSection] = useState<Section>('architecture');
+
+  const renderContent = () => {
+    switch (currentSection) {
+      case 'advanced-ai':
+        return <AdvancedAIView />;
+      case 'governance':
+        return <GovernanceView />;
+      case 'security':
+        return <SecurityView />;
+      case 'architecture':
+      default:
+        return viewMode === 'infra' ? (
+          <TechStackGrid />
+        ) : viewMode === 'microservices' ? (
+          <MicroservicesView />
+        ) : (
+          <ArchitectureDiagram 
+            onSelectLayer={setSelectedLayer} 
+            selectedLayerId={selectedLayer?.id || null} 
+            showDataFlow={viewMode === 'dataflow'}
+          />
+        );
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-slate-900 font-sans selection:bg-blue-100">
@@ -37,10 +67,23 @@ export default function App() {
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-sm font-semibold text-[#2A6EF3]">Architecture</a>
-            <a href="#" className="text-sm font-medium text-slate-500 hover:text-[#2A6EF3] transition-colors">Advanced AI</a>
-            <a href="#" className="text-sm font-medium text-slate-500 hover:text-[#2A6EF3] transition-colors">Governance</a>
-            <a href="#" className="text-sm font-medium text-slate-500 hover:text-[#2A6EF3] transition-colors">Security</a>
+            {[
+              { id: 'architecture', label: 'Architecture' },
+              { id: 'advanced-ai', label: 'Advanced AI' },
+              { id: 'governance', label: 'Governance' },
+              { id: 'security', label: 'Security' }
+            ].map((section) => (
+              <button
+                key={section.id}
+                onClick={() => setCurrentSection(section.id as Section)}
+                className={cn(
+                  "text-sm font-semibold transition-colors",
+                  currentSection === section.id ? "text-[#2A6EF3]" : "text-slate-500 hover:text-[#2A6EF3]"
+                )}
+              >
+                {section.label}
+              </button>
+            ))}
           </nav>
         </div>
 
@@ -64,75 +107,70 @@ export default function App() {
           <div className="p-8 pb-0">
             <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="text-3xl font-extrabold text-slate-900 mb-1 tracking-tight">
-                  {viewMode === 'infra' ? 'Advanced Tech Stack' : 
-                   viewMode === 'microservices' ? 'Microservices Blueprint' :
-                   'Enterprise AI Architecture'}
+                <h2 className="text-3xl font-extrabold text-slate-900 mb-1 tracking-tight capitalize">
+                  {currentSection.replace('-', ' ')}
                 </h2>
                 <p className="text-slate-500 text-sm font-medium">
-                  {viewMode === 'infra' 
-                    ? 'Production-grade technologies for large-scale AI deployment.' 
-                    : viewMode === 'microservices'
-                    ? 'Decoupled services for high availability and distributed inference.'
-                    : 'Interactive blueprint of the Nexus AI production-ready platform.'}
+                  {currentSection === 'architecture' && (
+                    viewMode === 'infra' 
+                      ? 'Production-grade technologies for large-scale AI deployment.' 
+                      : viewMode === 'microservices'
+                      ? 'Decoupled services for high availability and distributed inference.'
+                      : 'Interactive blueprint of the Nexus AI production-ready platform.'
+                  )}
+                  {currentSection === 'advanced-ai' && 'Exploring the intelligence engine and inference pipeline.'}
+                  {currentSection === 'governance' && 'Ensuring compliance, lineage, and model accountability.'}
+                  {currentSection === 'security' && 'Zero-trust security model and system-wide protection.'}
                 </p>
               </div>
               
-              <div className="flex items-center gap-3">
-                <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200">
-                  <button 
-                    onClick={() => setViewMode('topology')}
-                    className={cn(
-                      "px-4 py-2 text-xs font-bold rounded-lg transition-all",
-                      viewMode === 'topology' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
-                    )}
-                  >
-                    Topology
-                  </button>
-                  <button 
-                    onClick={() => setViewMode('dataflow')}
-                    className={cn(
-                      "px-4 py-2 text-xs font-bold rounded-lg transition-all",
-                      viewMode === 'dataflow' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
-                    )}
-                  >
-                    Data Flow
-                  </button>
-                  <button 
-                    onClick={() => setViewMode('microservices')}
-                    className={cn(
-                      "px-4 py-2 text-xs font-bold rounded-lg transition-all",
-                      viewMode === 'microservices' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
-                    )}
-                  >
-                    Services
-                  </button>
-                  <button 
-                    onClick={() => setViewMode('infra')}
-                    className={cn(
-                      "px-4 py-2 text-xs font-bold rounded-lg transition-all",
-                      viewMode === 'infra' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
-                    )}
-                  >
-                    Infra
-                  </button>
+              {currentSection === 'architecture' && (
+                <div className="flex items-center gap-3">
+                  <div className="flex bg-slate-100 rounded-xl p-1 border border-slate-200">
+                    <button 
+                      onClick={() => setViewMode('topology')}
+                      className={cn(
+                        "px-4 py-2 text-xs font-bold rounded-lg transition-all",
+                        viewMode === 'topology' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
+                      )}
+                    >
+                      Topology
+                    </button>
+                    <button 
+                      onClick={() => setViewMode('dataflow')}
+                      className={cn(
+                        "px-4 py-2 text-xs font-bold rounded-lg transition-all",
+                        viewMode === 'dataflow' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
+                      )}
+                    >
+                      Data Flow
+                    </button>
+                    <button 
+                      onClick={() => setViewMode('microservices')}
+                      className={cn(
+                        "px-4 py-2 text-xs font-bold rounded-lg transition-all",
+                        viewMode === 'microservices' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
+                      )}
+                    >
+                      Services
+                    </button>
+                    <button 
+                      onClick={() => setViewMode('infra')}
+                      className={cn(
+                        "px-4 py-2 text-xs font-bold rounded-lg transition-all",
+                        viewMode === 'infra' ? "bg-white text-[#2A6EF3] shadow-sm" : "text-slate-500 hover:text-slate-700"
+                      )}
+                    >
+                      Infra
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
           <div className="flex-1 p-8 pt-0 overflow-hidden">
-            {viewMode === 'infra' ? (
-              <TechStackGrid />
-            ) : viewMode === 'microservices' ? (
-              <MicroservicesView />
-            ) : (
-              <ArchitectureDiagram 
-                onSelectLayer={setSelectedLayer} 
-                selectedLayerId={selectedLayer?.id || null} 
-                showDataFlow={viewMode === 'dataflow'}
-              />
-            )}
+            {renderContent()}
           </div>
 
           {/* Bottom Stats Bar */}
