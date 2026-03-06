@@ -1,7 +1,7 @@
 import React from 'react';
 import { ARCHITECTURE_DATA } from '../types';
 import { motion } from 'motion/react';
-import { Server, Shield, Cpu, Database, Network, Cloud } from 'lucide-react';
+import { Server, Shield, Cpu, Database, Network, Cloud, Zap } from 'lucide-react';
 
 export const TechStackGrid: React.FC = () => {
   const allTech = ARCHITECTURE_DATA.flatMap(layer => 
@@ -14,10 +14,10 @@ export const TechStackGrid: React.FC = () => {
         {/* Infrastructure Summary Cards */}
         <div className="col-span-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Compute', value: 'GKE / Vertex AI', icon: Cpu, color: 'text-blue-500' },
-            { label: 'Storage', value: 'BigQuery / GCS', icon: Database, color: 'text-emerald-500' },
-            { label: 'Network', value: 'Cloud Armor / CDN', icon: Network, color: 'text-violet-500' },
-            { label: 'Cloud', value: 'Google Cloud Platform', icon: Cloud, color: 'text-amber-500' },
+            { label: 'Compute', value: 'GKE / vLLM', icon: Cpu, color: 'text-blue-500' },
+            { label: 'Storage', value: 'Pinecone / BigQuery', icon: Database, color: 'text-emerald-500' },
+            { label: 'Streaming', value: 'Kafka / PubSub', icon: Zap, color: 'text-yellow-500' },
+            { label: 'Security', value: 'IAM / Cloud Armor', icon: Shield, color: 'text-rose-500' },
           ].map((stat, i) => (
             <motion.div 
               key={i}

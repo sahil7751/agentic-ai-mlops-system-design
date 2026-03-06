@@ -12,7 +12,8 @@ import {
   Activity, 
   ArrowRight,
   ChevronRight,
-  Info
+  Info,
+  Shield
 } from 'lucide-react';
 
 interface Props {
@@ -22,12 +23,12 @@ interface Props {
 }
 
 const LAYER_ICONS: Record<string, any> = {
-  'user-layer': Users,
-  'application-layer': Layers,
+  'user-layer': Shield,
+  'orchestration-layer': Layers,
   'ai-ml-layer': Cpu,
   'mlops-layer': Settings,
   'data-layer': Database,
-  'devops-aiops-layer': Activity,
+  'infra-aiops-layer': Activity,
 };
 
 export const ArchitectureDiagram: React.FC<Props> = ({ onSelectLayer, selectedLayerId, showDataFlow }) => {
@@ -57,14 +58,18 @@ export const ArchitectureDiagram: React.FC<Props> = ({ onSelectLayer, selectedLa
           {showDataFlow ? 'Data Flow Analysis' : 'System Topology'}
         </h2>
         {showDataFlow && (
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">Active Stream</span>
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">Real-time Stream</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">Inference Flow</span>
             </div>
             <div className="flex items-center gap-2">
               <ArrowRight className="w-3 h-3 text-zinc-600" />
-              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">Downstream Flow</span>
+              <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">Event Bus</span>
             </div>
           </div>
         )}
@@ -141,9 +146,12 @@ export const ArchitectureDiagram: React.FC<Props> = ({ onSelectLayer, selectedLa
                   <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-px h-8 bg-zinc-800">
                     {showDataFlow && (
                       <motion.div 
-                        animate={{ y: [0, 32] }}
+                        animate={{ 
+                          y: [0, 32],
+                          backgroundColor: index % 2 === 0 ? '#10B981' : '#8B5CF6'
+                        }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                        className="w-1 h-2 bg-emerald-500 rounded-full -ml-[1.5px] blur-[1px]"
+                        className="w-1 h-2 rounded-full -ml-[1.5px] blur-[1px]"
                       />
                     )}
                   </div>

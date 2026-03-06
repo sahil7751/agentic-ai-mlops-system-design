@@ -18,10 +18,11 @@ import {
 } from 'lucide-react';
 
 import { TechStackGrid } from './components/TechStackGrid';
+import { MicroservicesView } from './components/MicroservicesView';
 
 export default function App() {
   const [selectedLayer, setSelectedLayer] = useState<ArchitectureLayer | null>(null);
-  const [viewMode, setViewMode] = useState<'topology' | 'dataflow' | 'infra'>('topology');
+  const [viewMode, setViewMode] = useState<'topology' | 'dataflow' | 'infra' | 'microservices'>('topology');
 
   return (
     <div className="min-h-screen bg-black text-zinc-100 font-sans selection:bg-emerald-500/30">
@@ -32,13 +33,13 @@ export default function App() {
             <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
               <Terminal className="w-5 h-5 text-black" />
             </div>
-            <h1 className="text-lg font-bold tracking-tight">Nexus<span className="text-emerald-500">AI</span></h1>
+            <h1 className="text-lg font-bold tracking-tight">Nexus<span className="text-emerald-500">AI</span> <span className="text-[10px] font-mono text-zinc-500 border border-white/10 px-1.5 py-0.5 rounded ml-2">v2.0 PRO</span></h1>
           </div>
           
           <nav className="hidden md:flex items-center gap-6">
             <a href="#" className="text-sm font-medium text-white">Architecture</a>
-            <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">MLOps</a>
-            <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">AIOps</a>
+            <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Advanced AI</a>
+            <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Governance</a>
             <a href="#" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Security</a>
           </nav>
         </div>
@@ -46,7 +47,7 @@ export default function App() {
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-2 bg-zinc-900 border border-white/5 rounded-full px-3 py-1.5">
             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">System Online</span>
+            <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest">Production Ready</span>
           </div>
           <button className="p-2 text-zinc-400 hover:text-white transition-colors">
             <Bell className="w-5 h-5" />
@@ -64,12 +65,16 @@ export default function App() {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h2 className="text-2xl font-bold text-white mb-1">
-                  {viewMode === 'infra' ? 'Infrastructure Stack' : 'System Architecture'}
+                  {viewMode === 'infra' ? 'Advanced Tech Stack' : 
+                   viewMode === 'microservices' ? 'Microservices Blueprint' :
+                   'Enterprise AI Architecture'}
                 </h2>
                 <p className="text-zinc-400 text-sm">
                   {viewMode === 'infra' 
-                    ? 'A comprehensive list of technologies powering the platform.' 
-                    : 'Interactive blueprint of the Nexus AI large-scale platform.'}
+                    ? 'Production-grade technologies for large-scale AI deployment.' 
+                    : viewMode === 'microservices'
+                    ? 'Decoupled services for high availability and distributed inference.'
+                    : 'Interactive blueprint of the Nexus AI production-ready platform.'}
                 </p>
               </div>
               
@@ -94,6 +99,15 @@ export default function App() {
                     Data Flow
                   </button>
                   <button 
+                    onClick={() => setViewMode('microservices')}
+                    className={cn(
+                      "px-3 py-1.5 text-xs font-medium rounded-md transition-all",
+                      viewMode === 'microservices' ? "bg-zinc-800 text-white shadow-sm" : "text-zinc-500 hover:text-zinc-300"
+                    )}
+                  >
+                    Services
+                  </button>
+                  <button 
                     onClick={() => setViewMode('infra')}
                     className={cn(
                       "px-3 py-1.5 text-xs font-medium rounded-md transition-all",
@@ -110,6 +124,8 @@ export default function App() {
           <div className="flex-1 p-8 pt-0 overflow-hidden">
             {viewMode === 'infra' ? (
               <TechStackGrid />
+            ) : viewMode === 'microservices' ? (
+              <MicroservicesView />
             ) : (
               <ArchitectureDiagram 
                 onSelectLayer={setSelectedLayer} 
