@@ -22,8 +22,10 @@ import { MicroservicesView } from './components/MicroservicesView';
 import { AdvancedAIView } from './components/AdvancedAIView';
 import { GovernanceView } from './components/GovernanceView';
 import { SecurityView } from './components/SecurityView';
+import { MonitoringView } from './components/MonitoringView';
+import { DevOpsView } from './components/DevOpsView';
 
-type Section = 'architecture' | 'advanced-ai' | 'governance' | 'security';
+type Section = 'architecture' | 'advanced-ai' | 'governance' | 'security' | 'monitoring' | 'devops';
 
 export default function App() {
   const [selectedLayer, setSelectedLayer] = useState<ArchitectureLayer | null>(null);
@@ -38,6 +40,10 @@ export default function App() {
         return <GovernanceView />;
       case 'security':
         return <SecurityView />;
+      case 'monitoring':
+        return <MonitoringView />;
+      case 'devops':
+        return <DevOpsView />;
       case 'architecture':
       default:
         return viewMode === 'infra' ? (
@@ -63,21 +69,23 @@ export default function App() {
             <div className="w-9 h-9 bg-[#2A6EF3] rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
               <Terminal className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-slate-900">Nexus<span className="text-[#2A6EF3]">AI</span> <span className="text-[10px] font-mono text-slate-500 border border-slate-200 px-1.5 py-0.5 rounded ml-2 bg-slate-50">v2.0 PRO</span></h1>
+            <h1 className="text-xl font-bold tracking-tight text-slate-900">Nexus<span className="text-[#2A6EF3]">AI</span> <span className="text-[10px] font-mono text-slate-500 border border-slate-200 px-1.5 py-0.5 rounded ml-2 bg-slate-50">v4.0 PLATFORM</span></h1>
           </div>
           
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden xl:flex items-center gap-8">
             {[
               { id: 'architecture', label: 'Architecture' },
               { id: 'advanced-ai', label: 'Advanced AI' },
               { id: 'governance', label: 'Governance' },
-              { id: 'security', label: 'Security' }
+              { id: 'security', label: 'Security' },
+              { id: 'monitoring', label: 'Monitoring' },
+              { id: 'devops', label: 'DevOps' }
             ].map((section) => (
               <button
                 key={section.id}
                 onClick={() => setCurrentSection(section.id as Section)}
                 className={cn(
-                  "text-sm font-semibold transition-colors",
+                  "text-sm font-semibold transition-colors whitespace-nowrap",
                   currentSection === section.id ? "text-[#2A6EF3]" : "text-slate-500 hover:text-[#2A6EF3]"
                 )}
               >
@@ -121,6 +129,8 @@ export default function App() {
                   {currentSection === 'advanced-ai' && 'Exploring the intelligence engine and inference pipeline.'}
                   {currentSection === 'governance' && 'Ensuring compliance, lineage, and model accountability.'}
                   {currentSection === 'security' && 'Zero-trust security model and system-wide protection.'}
+                  {currentSection === 'monitoring' && 'Real-time telemetry and model performance tracking.'}
+                  {currentSection === 'devops' && 'Automated deployment and MLOps lifecycle management.'}
                 </p>
               </div>
               

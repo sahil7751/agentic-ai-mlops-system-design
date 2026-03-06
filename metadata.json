@@ -1,5 +1,5 @@
 {
-  "name": "Nexus AI Architecture Explorer",
-  "description": "A comprehensive visualization and architectural deep-dive into a large-scale AI platform, integrating Deep Learning, Agentic AI, MLOps, and AIOps.",
+  "name": "Nexus AI Platform v4.0",
+  "description": "Enterprise-grade AI system architecture platform with advanced modeling, governance, security, and observability.",
   "requestFramePermissions": []
 }
