@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #2A6EF3;
+  --color-secondary: #FBE8D3;
+  --color-surface: #FFFFFF;
+  --color-background: #F8F9FA;
+  --color-ink: #1E293B;
+  --color-ink-muted: #64748B;
+  
+  --shadow-soft: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-strong: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-ink antialiased;
+  }
+}

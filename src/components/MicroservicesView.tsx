@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { cn } from '../lib/utils';
 import { 
   Box, 
   Cpu, 
@@ -26,11 +27,11 @@ const MICROSERVICES = [
 
 export const MicroservicesView: React.FC = () => {
   return (
-    <div className="h-full overflow-y-auto p-8 custom-scrollbar">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="col-span-full mb-6">
-          <h3 className="text-sm font-mono text-zinc-500 uppercase tracking-widest mb-2">Microservices Architecture</h3>
-          <p className="text-zinc-400 text-sm max-w-2xl">
+    <div className="h-full overflow-y-auto p-8 custom-scrollbar bg-white rounded-3xl border border-slate-200 shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="col-span-full mb-8">
+          <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">Microservices Architecture</h3>
+          <p className="text-slate-500 text-sm max-w-2xl font-medium leading-relaxed">
             The platform is built on a decoupled microservices architecture, allowing independent scaling and deployment of core AI and infrastructure components.
           </p>
         </div>
@@ -41,48 +42,54 @@ export const MicroservicesView: React.FC = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-white/5 hover:border-white/10 transition-all group flex gap-5"
+            className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-[#2A6EF3]/30 hover:bg-white transition-all group flex gap-6 shadow-sm hover:shadow-md"
           >
-            <div className={service.color}>
+            <div className={cn("p-4 rounded-2xl bg-white shadow-sm transition-transform group-hover:scale-110", service.color)}>
               <service.icon className="w-8 h-8" />
             </div>
             <div>
-              <h4 className="text-lg font-bold text-white mb-1">{service.name}</h4>
-              <p className="text-sm text-zinc-400 leading-relaxed">{service.description}</p>
+              <h4 className="text-xl font-extrabold text-slate-900 mb-2 tracking-tight">{service.name}</h4>
+              <p className="text-sm text-slate-500 font-medium leading-relaxed">{service.description}</p>
               
-              <div className="mt-4 flex items-center gap-3">
-                <span className="text-[10px] font-mono text-zinc-600 border border-zinc-800 px-2 py-0.5 rounded">gRPC</span>
-                <span className="text-[10px] font-mono text-zinc-600 border border-zinc-800 px-2 py-0.5 rounded">Docker</span>
-                <span className="text-[10px] font-mono text-zinc-600 border border-zinc-800 px-2 py-0.5 rounded">Go/Python</span>
+              <div className="mt-6 flex items-center gap-3">
+                <span className="text-[10px] font-bold text-slate-400 border border-slate-200 px-3 py-1 rounded-full bg-white">gRPC</span>
+                <span className="text-[10px] font-bold text-slate-400 border border-slate-200 px-3 py-1 rounded-full bg-white">Docker</span>
+                <span className="text-[10px] font-bold text-slate-400 border border-slate-200 px-3 py-1 rounded-full bg-white">Go/Python</span>
               </div>
             </div>
           </motion.div>
         ))}
 
         {/* Communication Pattern Card */}
-        <div className="col-span-full mt-8 p-8 rounded-3xl bg-gradient-to-br from-zinc-900 to-black border border-white/5">
-          <div className="flex items-center gap-3 mb-6">
-            <MessageSquare className="w-6 h-6 text-emerald-500" />
-            <h3 className="text-xl font-bold text-white">Inter-Service Communication</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            <div>
-              <h5 className="text-sm font-semibold text-zinc-200 mb-2">Synchronous</h5>
-              <p className="text-xs text-zinc-500 leading-relaxed">
-                High-performance gRPC for low-latency inference and agent coordination.
-              </p>
+        <div className="col-span-full mt-10 p-10 rounded-[2.5rem] bg-[#FBE8D3]/30 border border-[#FBE8D3] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#FBE8D3] opacity-20 rounded-full -mr-32 -mt-32" />
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm">
+                <MessageSquare className="w-6 h-6 text-[#2A6EF3]" />
+              </div>
+              <h3 className="text-2xl font-extrabold text-slate-800 tracking-tight">Inter-Service Communication</h3>
             </div>
-            <div>
-              <h5 className="text-sm font-semibold text-zinc-200 mb-2">Asynchronous</h5>
-              <p className="text-xs text-zinc-500 leading-relaxed">
-                Kafka-based event streaming for data ingestion and background training tasks.
-              </p>
-            </div>
-            <div>
-              <h5 className="text-sm font-semibold text-zinc-200 mb-2">Service Mesh</h5>
-              <p className="text-xs text-zinc-500 leading-relaxed">
-                Istio for traffic management, mutual TLS, and granular observability.
-              </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+              <div>
+                <h5 className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Synchronous</h5>
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                  High-performance gRPC for low-latency inference and agent coordination.
+                </p>
+              </div>
+              <div>
+                <h5 className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Asynchronous</h5>
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                  Kafka-based event streaming for data ingestion and background training tasks.
+                </p>
+              </div>
+              <div>
+                <h5 className="text-sm font-bold text-slate-800 mb-3 uppercase tracking-wider">Service Mesh</h5>
+                <p className="text-xs text-slate-600 font-medium leading-relaxed">
+                  Istio for traffic management, mutual TLS, and granular observability.
+                </p>
+              </div>
             </div>
           </div>
         </div>
